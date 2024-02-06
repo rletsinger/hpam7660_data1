@@ -1,0 +1,130 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={HPAM 7660 Data Assignment 1},
+  pdfauthor={Rebecca Letsinger},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{HPAM 7660 Data Assignment 1}
+\author{Rebecca Letsinger}
+\date{February 6, 2024}
+
+\begin{document}
+\maketitle
+
+install.packages(``dplyr'') install.packages(``readr'')
+install.packages(``tidry'') install.packages(``nycflights13'')
+install.packages(``fivethirtyeight'')
+
+library(dplyr) library(readr) library(tidyr) library(nycflights13)
+library(fivethirtyeight)
+
+Question 2: glimpse(drinks)
+
+Question 3: ?drinks
+
+Question 4: In the context of R and data analysis, a dataset is
+considered ``tidy'' if it follows a specific structure that makes it
+easy to perform data analysis and visualization. This includes column,
+rows, and observational units within those columns and rows. Wide data
+has each row representing a unique observation, but multiple variables
+are spread across columns. Long data has each variable and its
+corresponding values are stored in separate rows.
+
+Question 5: This data is not tidy because it is not broken down into
+servings per spirit. The values spread throughout various columns.
+Making it tidy will show a more complete breakdown of the table and
+avoid over counting. drinks\_smaller \textless- drinks \%\textgreater\%
+filter(country \%in\% c(``USA'', ``China'', ``Italy'', ``Saudi
+Arabia'')) \%\textgreater\% select(-total\_litres\_of\_pure\_alcohol)
+\%\textgreater\% rename(beer = beer\_servings, spirit =
+spirit\_servings, wine = wine\_servings) drinks\_smaller
+
+Question 6: drinks\_smaller \%\textgreater\% pivot\_longer(names\_to =
+``type'', values\_to = ``servings'', cols = beer:wine)
+
+Question 7: View(``drinks\_smaller'')
+
+Question 8: airline\_safety\_smaller \textless- airline\_safety
+\%\textgreater\% select(airline, starts\_with(``fatalities''))
+airline\_safety\_smaller
+
+airline\_safety\_smaller\_tidy \textless-airline\_safety\_smaller
+\%\textgreater\% pivot\_longer(cols = c(fatalities\_85\_99,
+fatalities\_00\_14), names\_to = ``fatalities'', values\_to = ``count''
+)
+
+View(``airline\_safety\_smaller\_tidy'')
+
+Question 9: dem\_score \textless-
+read\_csv(``\url{https://moderndive.com/data/dem_score.csv}'')
+dem\_score
+
+Question 10: View(``dem\_score'')
+
+Question 11: This is not tidy. If this were to be in a tidy format, the
+years would be separated in one column called which would describes all
+the years as one variable.
+
+\end{document}

@@ -1,0 +1,81 @@
+---
+title: "HPAM 7660 Data Assignment 1"
+author: "Rebecca Letsinger"
+date: "February 6, 2024"
+output: pdf_document
+---
+
+```{r}
+library(dplyr)
+library(readr)
+library(tidyr)
+library(nycflights13)
+library(fivethirtyeight)
+```
+Question 2:
+```{r}
+glimpse(drinks)
+```
+
+Question 3:
+```{r}
+?drinks
+```
+
+Question 4: In the context of R and data analysis, a data set is considered "tidy" if it follows a specific structure that makes it easy to perform data analysis and visualization. This includes column, rows, and observational units within those columns and rows. Wide data has each row representing a unique observation, but multiple variables are spread across columns. Long data has each variable and its corresponding values are stored in separate rows. 
+
+Question 5: This data is not tidy because it is not broken down into servings per spirit. The values spread throughout various columns. Making it tidy will show a more complete breakdown of the table and avoid over counting.
+
+```{r}
+drinks_smaller <- drinks %>% 
+  filter(country %in% c("USA", "China", "Italy", "Saudi Arabia")) %>% 
+  select(-total_litres_of_pure_alcohol) %>% 
+  rename(beer = beer_servings, spirit = spirit_servings, wine = wine_servings)
+drinks_smaller
+```
+
+Question 6:
+```{r}
+drinks_smaller %>% 
+  pivot_longer(names_to = "type", 
+               values_to = "servings", 
+               cols = beer:wine)
+```
+               
+Question 7:
+```{r}
+View("drinks_smaller")
+```
+
+Question 8:
+```{r}
+airline_safety_smaller <- airline_safety %>% 
+  select(airline, starts_with("fatalities"))
+airline_safety_smaller
+```
+
+```{r}
+airline_safety_smaller_tidy <-airline_safety %>%
+  pivot_longer(
+    cols = c(fatalities_85_99,fatalities_00_14),
+    names_to = "fatalities",
+    values_to = "count" )
+```
+
+```{r}
+View("airline_safety_smaller_tidy")
+```
+
+Question 9:
+```{r}
+dem_score <- read_csv("https://moderndive.com/data/dem_score.csv")
+dem_score
+```
+
+Question 10:
+```{r}
+View("dem_score")  
+```
+
+Question 11:
+This is not tidy. If this were to be in a tidy format, the years would be separated in one column called which would describes all the years as one variable.
